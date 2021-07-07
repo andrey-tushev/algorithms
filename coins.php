@@ -9,17 +9,21 @@ solve(x) = min(
     solve(x-4) +1
 )
 */
+$coins = [1, 4];
+
 function solveRecursive($x) {
+    global $coins;
+
     if ($x===0) { return 0;           } // Четко набрали нужную сумму. Монетки не нужны.
     if ($x < 0) { return PHP_INT_MAX; } // Перебор
 
-    $coins = [1, 3, 4];
+    // Для улучшение O() стоит добавить меморизацию
 
     $best = PHP_INT_MAX;
     foreach ($coins as $coin) {
         // Пробуем потратить каждый тип монетки, смотрим что вышло оптимальнее
         $best = min($best,
-            solveRecursive($x - $coin) +1
+            solveRecursive($x - $coin) +1 // А сколько монеток надо для вот такой суммы?
             // +1 потому что потратили какую то одну из монеток
         );
     }
@@ -28,12 +32,12 @@ function solveRecursive($x) {
 
 // Из книжки. O(S*C)
 function solveDP($sum) {
+    global $coins;
+
     // Массив лучших значений, для каждой из сумм
     $dp = [
         0 => 0  // Для нулевой суммы надо 0 монеток
     ];
-
-    $coins = [1, 3, 4];
 
     for ($x=1; $x<=$sum; $x++) {
         $dp[$x] = PHP_INT_MAX;
@@ -52,12 +56,12 @@ function solveDP($sum) {
 // Мое решение.
 // Аналог версии solveRecursive(), но без ракурсии и с DP
 function solveDP2($sum) {
+    global $coins;
+
     // Массив лучших значений, для каждой из сумм
     $dp = [
         0 => 0  // Для нулевой суммы надо 0 монеток
     ];
-
-    $coins = [1, 3, 4];
 
     // Переберем все суммы
     for ($x=1; $x<=$sum; $x++) {
@@ -81,8 +85,8 @@ function solveDP2($sum) {
 }
 
 
-for ($x=0; $x<=10; $x++) {
-    print "x=$x \t => " .
+for ($x=0; $x<=20; $x++) {
+    print "x=$x \t => \t " .
         solveRecursive($x) . "\t" .
         solveDP($x) . "\t"  .
         solveDP2($x) . "\n";
