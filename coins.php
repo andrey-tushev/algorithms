@@ -9,7 +9,7 @@ solve(x) = min(
     solve(x-4) +1
 )
 */
-$coins = [1, 4];
+$coins = [1, 3, 4];
 
 function solveRecursive($x) {
     global $coins;

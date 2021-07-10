@@ -41,10 +41,10 @@ class Subsets2 {
             $this->process();
         }
         else {
-            $this->subset[$k] = $this->set[$k];
+            $this->subset[$k] = $this->set[$k]; // Установили
             $this->search($k+1);
 
-            $this->subset[$k] = '.';
+            $this->subset[$k] = '.'; // Убрали
             $this->search($k+1);
         }
     }
